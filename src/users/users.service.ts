@@ -20,21 +20,20 @@ export class UsersService {
     }
 
     async insertUser(user: User): Promise<User> {
-        const newUser = new this.userModel({ ...user })
-        const result = await newUser.save()
-        return result
+        const newUser = new this.userModel({ ...user, isAdmin: false })
+        const savedUser = await newUser.save()
+        return savedUser
     }
 
     async updateUser(id: string, user: User): Promise<User> {
-        const updatedUser = await this.getUser(id)
-        Object.assign(updatedUser, user)
-        updatedUser.save()
+        const filter = { id: id };
+        const update = { username: user.username, password: user.password }
+        const updatedUser = await this.userModel.findOneAndUpdate(filter, update, { new: true })
         return updatedUser
     }
 
     async deleteUser(id: string): Promise<User> {
-        const deletedUser = await this.getUser(id)
-        deletedUser.delete()
+        const deletedUser = await this.userModel.findOneAndDelete({ id: id }).exec()
         return deletedUser
     }
 }

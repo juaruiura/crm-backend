@@ -26,15 +26,14 @@ export class CustomersService {
     }
 
     async updateCustomer(id: string, customer: Customer): Promise<Customer> {
-        const updatedCustomer = await this.getCustomer(id)
-        Object.assign(updatedCustomer, customer)
-        updatedCustomer.save()
-        return updatedCustomer
+        const filter = { id: id };
+        const update = { ...customer }
+        const updatedUser = await this.customerModel.findOneAndUpdate(filter, update, { new: true })
+        return updatedUser
     }
 
     async deleteCustomer(id: string): Promise<Customer> {
-        const deletedCustomer = await this.getCustomer(id)
-        deletedCustomer.delete()
+        const deletedCustomer = await this.customerModel.findOneAndDelete({ id: id }).exec()
         return deletedCustomer
     }
 }
