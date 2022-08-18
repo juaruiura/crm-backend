@@ -1,35 +1,38 @@
 import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { User } from './user.model';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
+    constructor(private readonly usersService: UsersService) { }
+
     @Get()
-    getUsers(): string {
-        return "Return all the users in the database"
+    async getUsers(): Promise<User[]> {
+        const users = await this.usersService.getUsers()
+        return users
     }
 
     @Get(':id')
-    getUser(@Param('id') id: string): string {
-        return "Return an specific user"
+    async getUser(@Param('id') id: string): Promise<User> {
+        const user = await this.usersService.getUser(id)
+        return user
     }
 
     @Post()
-    createUser(@Body() user): string {
-        return "Create a new user"
+    async createUser(@Body() newUser: User): Promise<User> {
+        const insertedUser = await this.usersService.insertUser(newUser)
+        return insertedUser
     }
 
     @Put(':id')
-    updateUser(@Param('id') id: string, @Body() user): string {
-        return "Update an existing user"
+    async updateUser(@Param('id') id: string, @Body() user): Promise<User> {
+        const updatedUser = await this.usersService.updateUser(id, user)
+        return updatedUser
     }
 
     @Delete(':id')
-    deleteUser(@Param('id') id: string): string {
-        return "Delete an existing user"
-    }
-
-    //Need further info of the difference between updating a user and changing its admin status
-    @Put('admin/:id')
-    changeUserAdminStatus(@Param('id') id: string, @Body() user): string {
-        return "Update an existing user admin status"
+    async deleteUser(@Param('id') id: string): Promise<User> {
+        const deletedUser = await this.usersService.deleteUser(id)
+        return deletedUser
     }
 }
