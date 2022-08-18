@@ -1,29 +1,38 @@
 import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { Customer } from './customer.model';
+import { CustomersService } from './customers.service';
 
 @Controller('customers')
 export class CustomersController {
+    constructor(private readonly customersService: CustomersService) { }
+
     @Get()
-    getCustomers(): string {
-        return "Return all the customers in the database"
+    async getCustomers(): Promise<Customer[]> {
+        const customers = await this.customersService.getCustomers()
+        return customers
     }
 
     @Get(':id')
-    getCustomer(@Param('id') id: string): string {
-        return "Return an specific customer"
+    async getCustomer(@Param('id') id: string): Promise<Customer> {
+        const customer = await this.customersService.getCustomer(id)
+        return customer
     }
 
     @Post()
-    createCustomer(@Body() customer): string {
-        return "Create a new customer"
+    async createCustomer(@Body() newCustomer: Customer): Promise<Customer> {
+        const insertedCustomer = await this.customersService.insertCustomer(newCustomer)
+        return insertedCustomer
     }
 
     @Put(':id')
-    updateCustomer(@Param('id') id: string, @Body() customer): string {
-        return "Update an existing customer"
+    async updateCustomer(@Param('id') id: string, @Body() customer): Promise<Customer> {
+        const updatedCustomer = await this.customersService.updateCustomer(id, customer)
+        return updatedCustomer
     }
 
     @Delete(':id')
-    deleteCustomer(@Param('id') id: string): string {
-        return "Delete an existing customer"
+    async deleteCustomer(@Param('id') id: string): Promise<Customer> {
+        const deletedCustomer = await this.customersService.deleteCustomer(id)
+        return deletedCustomer
     }
 }
