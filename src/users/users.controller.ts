@@ -25,7 +25,7 @@ export class UsersController {
     }
 
     @Put(':id')
-    async updateUser(@Param('id') id: string, @Body() user): Promise<User> {
+    async updateUser(@Param('id') id: string, @Body() user: User): Promise<User> {
         const updatedUser = await this.usersService.updateUser(id, user)
         return updatedUser
     }
@@ -34,5 +34,11 @@ export class UsersController {
     async deleteUser(@Param('id') id: string): Promise<User> {
         const deletedUser = await this.usersService.deleteUser(id)
         return deletedUser
+    }
+
+    @Put('admin/:id')
+    async updateUserAdminStatus(@Param('id') id: string, @Body() isAdmin: boolean): Promise<User> {
+        const updatedUser = await this.usersService.updateAdminStatus(id, isAdmin)
+        return updatedUser
     }
 }

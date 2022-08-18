@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+import * as bcrypt from 'bcrypt';
 
 import { User } from "./user.model";
 
@@ -27,7 +28,8 @@ export class UsersService {
 
     async updateUser(id: string, user: User): Promise<User> {
         const filter = { id: id };
-        const update = { username: user.username, password: user.password }
+        const hashedPassword = await bcrypt.hash(user.password, 10)
+        const update = { username: user.username.toLowerCase().trim(), password: hashedPassword }
         const updatedUser = await this.userModel.findOneAndUpdate(filter, update, { new: true })
         return updatedUser
     }
@@ -35,5 +37,12 @@ export class UsersService {
     async deleteUser(id: string): Promise<User> {
         const deletedUser = await this.userModel.findOneAndDelete({ id: id }).exec()
         return deletedUser
+    }
+
+    async updateAdminStatus(id: string, newAdminStatus: boolean): Promise<User> {
+        const filter = { id: id };
+        const update = { isAdmin: newAdminStatus }
+        const updatedUser = await this.userModel.findOneAndUpdate(filter, update, { new: true })
+        return updatedUser
     }
 }

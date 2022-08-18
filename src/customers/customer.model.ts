@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose'
 
 export const CustomerSchema = new mongoose.Schema({
-    id: { type: String, required: true },
+    id: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     surname: { type: String, required: true },
     photo: String,
