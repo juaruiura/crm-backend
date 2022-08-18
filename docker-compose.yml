@@ -8,7 +8,25 @@ services:
     command: npm run start:debug
     ports:
       - 3000:3000
+    networks:
+      - crm-network
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     restart: unless-stopped
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:5.0.0
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    networks:
+      - crm-network
+    ports:
+      - 27017:27017
+    restart: unless-stopped
+networks:
+  crm-network:
