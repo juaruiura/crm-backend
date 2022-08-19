@@ -31,8 +31,7 @@ docker compose down
 
 # REST API
 
-The API is only accessible by a registered user by providing an
-authentication token.
+The API is only accessible by a registered user by providing an authentication token. For testing pourposes, a default **_user { username: admin, password: admin }_** (password is **already hashed**, so to login, you must send and object **like the previously described**)
 
 A **customer** is defined by an schema like:
 
