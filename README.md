@@ -73,22 +73,30 @@ To login and get the token:
 
 - **GET /auth/login** -> Login and get JWT
   - **_@Recieves:_** { username: <>, password: <> }
-  - @Returns: an object with the access token
+  - **_@Returns:_** an object with the access token
 
 At /customers we have:
 
 - **GET /customers** -> Lists all customers in the database.
+
   - **_@Recieves:_** nothing
   - **_@Returns:_** an array of customers
+
 - **GET /customers/{id}** -> Gets a customer information.
+
   - **_@Recieves:_** a customer {id}
   - **_@Returns:_** a customer object
+
 - **POST /customers** -> Creates a new customer.
+
   - **_@Recieves:_** a customer object
   - **_@Returns:_** the newly created customer
+
 - **PUT /customers/{id}** -> Updates an existing customer.
+
   - **_@Recieves:_** a customer {id}
   - **_@Returns:_** the updated customer
+
 - **DELETE /customers/{id}** -> Deletes an existing customer.
   - **_@Recieves:_** a customer {id}
   - **_@Returns:_** the deleted customer
@@ -97,14 +105,20 @@ The /users endpoints require the authenticated user to be admin (isAdmin: true)
 At /users we have:
 
 - **GET /users** -> Lists all users in the database.
+
   - **_@Recieves:_** nothing
   - **_@Returns:_** an array of users
+
 - **GET /users/{id}** -> Gets a user information.
+
   - **_@Recieves:_** an user {id}
   - **_@Returns:_** an user object
+
 - **POST /users** -> Creates a new user.
+
   - **_@Recieves:_** an user object
   - **_@Returns:_** the newly created user
+
 - **PUT /users/{id}** -> Updates an existing user.
   - **_@Recieves:_** an user {id}
   - **_@Returns:_** the updated user
