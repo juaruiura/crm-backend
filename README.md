@@ -101,7 +101,7 @@ At /customers we have:
   - **_@Recieves:_** a customer {id}
   - **_@Returns:_** the deleted customer
 
-The /users endpoints require the authenticated user to be admin (isAdmin: true)
+The /users endpoints requires the authenticated user to be admin (isAdmin: true)
 At /users we have:
 
 - **GET /users** -> Lists all users in the database.
@@ -120,8 +120,10 @@ At /users we have:
   - **_@Returns:_** the newly created user
 
 - **PUT /users/{id}** -> Updates an existing user.
+
   - **_@Recieves:_** an user {id}
   - **_@Returns:_** the updated user
+
 - **DELETE /users/{id}** -> Deletes an existing user.
   - **_@Recieves:_** an user {id}
   - **_@Returns:_** the deleted user
