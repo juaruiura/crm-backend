@@ -21,7 +21,8 @@ export class UsersService {
     }
 
     async insertUser(user: User): Promise<User> {
-        const newUser = new this.userModel({ ...user, isAdmin: false })
+        const hashedPassword = await bcrypt.hash(user.password, 10)
+        const newUser = new this.userModel({ ...user, password: hashedPassword, isAdmin: false })
         const savedUser = await newUser.save()
         return savedUser
     }
@@ -29,7 +30,7 @@ export class UsersService {
     async updateUser(id: string, user: User): Promise<User> {
         const filter = { id: id };
         const hashedPassword = await bcrypt.hash(user.password, 10)
-        const update = { username: user.username.toLowerCase().trim(), password: hashedPassword }
+        const update = { ...user, password: hashedPassword }
         const updatedUser = await this.userModel.findOneAndUpdate(filter, update, { new: true })
         return updatedUser
     }
@@ -37,12 +38,5 @@ export class UsersService {
     async deleteUser(id: string): Promise<User> {
         const deletedUser = await this.userModel.findOneAndDelete({ id: id }).exec()
         return deletedUser
-    }
-
-    async updateAdminStatus(id: string, newAdminStatus: boolean): Promise<User> {
-        const filter = { id: id };
-        const update = { isAdmin: newAdminStatus }
-        const updatedUser = await this.userModel.findOneAndUpdate(filter, update, { new: true })
-        return updatedUser
     }
 }
