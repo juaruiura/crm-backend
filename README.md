@@ -1,73 +1,113 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# CRM Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This project simulates a REST API to manage customer data for a small shop. It consists of 2 Docker containers:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- crm-backend: REST API for the management of customers and users
+- mongodb: MongoDB database image container
 
-## Description
+# Run this project
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Requirements
 
-## Installation
+Docker must be installed in your system in order to get the containers up
 
-```bash
-$ npm install
+## Run the containers
+
+The project has in the root a docker-compose.yml which is the definition of the running system. It will create containers mentioned previously and initialize the database container.
+
+To get it running, just go to the root folder of the solution and execute:
+
+```
+docker compose up
 ```
 
-## Running the app
+### Stop the containers
 
-```bash
-# development
-$ npm run start
+To stop the containers, just execute the following command in the root folder of the project:
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```
+docker compose down
 ```
 
-## Test
+# REST API
 
-```bash
-# unit tests
-$ npm run test
+The API is only accessible by a registered user by providing an
+authentication token.
 
-# e2e tests
-$ npm run test:e2e
+A **customer** is defined by an schema like:
 
-# test coverage
-$ npm run test:cov
-```
+- id: { type: String, required: true, unique: true },
+- name: { type: String, required: true },
+- surname: { type: String, required: true },
+- photo: String,
+- createdBy: String,
+- lastModifiedBy: String,
 
-## Support
+A **user** is defined by an schema like:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- username: { type: String, required: true, unique: true },
+- password: { type: String, required: true },
+- isAdmin: { type: Boolean, required: true },
 
-## Stay in touch
+A **non-admin** user can only:
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- List all customers in the database.
+- Get full customer information.
+- Create a new customer.
+- Update an existing customer.
+- Delete an existing customer.
 
-## License
+An **admin** can also:
 
-Nest is [MIT licensed](LICENSE).
+- Manage users:
+- Create users.
+- Delete users.
+- Update users (and so change its admin status).
+- List users.
+
+## API ENDPOINTS
+
+The API has two main controllers, /users and /customers. Every endpoint requires a JWT provided through a bearer token with the 'Bearer' token prefix.
+
+To login and get the token:
+
+- **GET /auth/login** -> Login and get JWT
+  - **_@Recieves:_** { username: <>, password: <> }
+  - @Returns: an object with the access token
+
+At /customers we have:
+
+- **GET /customers** -> Lists all customers in the database.
+  - **_@Recieves:_** nothing
+  - **_@Returns:_** an array of customers
+- **GET /customers/{id}** -> Gets a customer information.
+  - **_@Recieves:_** a customer {id}
+  - **_@Returns:_** a customer object
+- **POST /customers** -> Creates a new customer.
+  - **_@Recieves:_** a customer object
+  - **_@Returns:_** the newly created customer
+- **PUT /customers/{id}** -> Updates an existing customer.
+  - **_@Recieves:_** a customer {id}
+  - **_@Returns:_** the updated customer
+- **DELETE /customers/{id}** -> Deletes an existing customer.
+  - **_@Recieves:_** a customer {id}
+  - **_@Returns:_** the deleted customer
+
+The /users endpoints require the authenticated user to be admin (isAdmin: true)
+At /users we have:
+
+- **GET /users** -> Lists all users in the database.
+  - **_@Recieves:_** nothing
+  - **_@Returns:_** an array of users
+- **GET /users/{id}** -> Gets a user information.
+  - **_@Recieves:_** an user {id}
+  - **_@Returns:_** an user object
+- **POST /users** -> Creates a new user.
+  - **_@Recieves:_** an user object
+  - **_@Returns:_** the newly created user
+- **PUT /users/{id}** -> Updates an existing user.
+  - **_@Recieves:_** an user {id}
+  - **_@Returns:_** the updated user
+- **DELETE /users/{id}** -> Deletes an existing user.
+  - **_@Recieves:_** an user {id}
+  - **_@Returns:_** the deleted user
