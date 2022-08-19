@@ -22,7 +22,7 @@ export class UsersController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Post('signup')
+    @Post('')
     async createUser(@Body() newUser: User): Promise<User> {
         const insertedUser = await this.usersService.insertUser(newUser)
         return insertedUser

@@ -22,7 +22,7 @@ export class UsersService {
 
     async insertUser(user: User): Promise<User> {
         const hashedPassword = await bcrypt.hash(user.password, 10)
-        const newUser = new this.userModel({ ...user, password: hashedPassword, isAdmin: false })
+        const newUser = new this.userModel({ ...user, password: hashedPassword })
         const savedUser = await newUser.save()
         return savedUser
     }
