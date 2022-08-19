@@ -13,6 +13,8 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
+    environment:
+      - JWT_SECRET=secret
     restart: unless-stopped
     depends_on:
       - mongodb
