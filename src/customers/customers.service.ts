@@ -19,15 +19,15 @@ export class CustomersService {
         return customer
     }
 
-    async insertCustomer(customer: Customer): Promise<Customer> {
-        const newCustomer = new this.customerModel({ ...customer })
+    async insertCustomer(customer: Customer, creatorUsername: string): Promise<Customer> {
+        const newCustomer = new this.customerModel({ ...customer, createdBy: creatorUsername, lastModifiedBy: creatorUsername })
         const result = await newCustomer.save()
         return result
     }
 
-    async updateCustomer(id: string, customer: Customer): Promise<Customer> {
+    async updateCustomer(id: string, customer: Customer, modifierUsername: string): Promise<Customer> {
         const filter = { id: id };
-        const update = { ...customer }
+        const update = { ...customer, lastModifiedBy: modifierUsername }
         const updatedUser = await this.customerModel.findOneAndUpdate(filter, update, { new: true })
         return updatedUser
     }

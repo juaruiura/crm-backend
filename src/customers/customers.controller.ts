@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards, Request } from '@nestjs/common';
 import { Customer } from './customer.model';
 import { CustomersService } from './customers.service';
 import { JwtAuthGuard } from './../auth/jwt-auth.guard';
@@ -23,15 +23,15 @@ export class CustomersController {
 
     @UseGuards(JwtAuthGuard)
     @Post()
-    async createCustomer(@Body() newCustomer: Customer): Promise<Customer> {
-        const insertedCustomer = await this.customersService.insertCustomer(newCustomer)
+    async createCustomer(@Body() newCustomer: Customer, @Request() req): Promise<Customer> {
+        const insertedCustomer = await this.customersService.insertCustomer(newCustomer, req.user.username)
         return insertedCustomer
     }
 
     @UseGuards(JwtAuthGuard)
     @Put(':id')
-    async updateCustomer(@Param('id') id: string, @Body() customer): Promise<Customer> {
-        const updatedCustomer = await this.customersService.updateCustomer(id, customer)
+    async updateCustomer(@Param('id') id: string, @Body() customer, @Request() req): Promise<Customer> {
+        const updatedCustomer = await this.customersService.updateCustomer(id, customer, req.user.username)
         return updatedCustomer
     }
 
