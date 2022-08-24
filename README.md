@@ -1,17 +1,26 @@
-# CRM Backend
+# 🛒 Shop CRM Backend
 
-This project simulates a REST API to manage customer data for a small shop. It consists of 2 Docker containers:
+This project simulates a REST API to manage customer data for a small shop 🛒.
 
-- crm-backend: REST API for the management of customers and users
-- mongodb: MongoDB database image container
+It consists of 2 Docker 🐳 containers:
 
-# Run this project
+- 🌐 crm-backend: REST API for the management of customers and users
+- 💾 mongodb: MongoDB database image container
 
-## Requirements
+For the backend, the main technologies used are:
 
-Docker must be installed in your system in order to get the containers up
+- <a href="http://nestjs.com/" target="_blank">NestJS <img src="https://nestjs.com/img/logo-small.svg" width="18" style="vertical-align:middle;" alt="Nest Logo" /></a>
+- <a href="https://mongoosejs.com/" target="_blank">Mongoose <img src="https://avatars.githubusercontent.com/u/7552965?s=280&v=4" width="30" style="vertical-align:middle;" alt="Mongoose Logo" /></a>
+- <a href="https://www.passportjs.org/" target="_blank">Passport <img src="https://cdn.glitch.me/project-avatar/0d184ee3-fd8d-4b94-acf4-b4e686e57375.png" width="20" style="vertical-align:middle;" alt="Passport Logo" /></a>
 
-## Run the containers
+# ▶️ Run this project
+
+## 🔧 Requirements
+
+- 🐳 <a href="https://www.docker.com/products/docker-desktop/" target="_blank"><img style="vertical-align:middle;" src="https://img.shields.io/badge/Docker-v20.10.17-green" alt="Docker version 20.10.17" height="16"/></a> was used during development in order to get the containers up
+- **Ports 3000 and 27017** must be free for use for the API and MongoDB
+
+### 🐳 Run the containers
 
 The project has in the root a docker-compose.yml which is the definition of the running system. It will create containers mentioned previously and initialize the database container.
 
@@ -21,7 +30,7 @@ To get it running, just go to the root folder of the solution and execute:
 docker compose up
 ```
 
-### Stop the containers
+### ⏸️ Stop the containers
 
 To stop the containers, just execute the following command in the root folder of the project:
 
@@ -29,52 +38,56 @@ To stop the containers, just execute the following command in the root folder of
 docker compose down
 ```
 
-# REST API
+# 🌐 REST API
 
 The API is only accessible by a registered user by providing an authentication token. For testing pourposes, a default **_user { username: admin, password: admin }_** (password is **already hashed**, so to login, you must send and object **like the previously described**)
 
-A **customer** is defined by an schema like:
+### For the data structure
 
-- id: { type: String, required: true, unique: true },
-- name: { type: String, required: true },
-- surname: { type: String, required: true },
-- photo: String,
-- createdBy: String,
-- lastModifiedBy: String,
+- A **customer** is defined by an schema like:
 
-A **user** is defined by an schema like:
+  - id: { type: String, required: true, unique: true },
+  - name: { type: String, required: true },
+  - surname: { type: String, required: true },
+  - photo: String,
+  - createdBy: String,
+  - lastModifiedBy: String,
 
-- username: { type: String, required: true, unique: true },
-- password: { type: String, required: true },
-- isAdmin: { type: Boolean, required: true },
+- A **user** is defined by an schema like:
 
-A **non-admin** user can only:
+  - username: { type: String, required: true, unique: true },
+  - password: { type: String, required: true },
+  - isAdmin: { type: Boolean, required: true },
 
-- List all customers in the database.
-- Get full customer information.
-- Create a new customer.
-- Update an existing customer.
-- Delete an existing customer.
+### As for the Authorization:
 
-An **admin** can also:
+- A **non-admin** user can only:
 
-- Manage users:
-- Create users.
-- Delete users.
-- Update users (and so change its admin status).
-- List users.
+  - List all customers in the database.
+  - Get full customer information.
+  - Create a new customer.
+  - Update an existing customer.
+  - Delete an existing customer.
 
-## API ENDPOINTS
+- An **admin** can also:
+
+  - Manage users:
+  - Create users.
+  - Delete users.
+  - Update users (and so change its admin status).
+  - List users.
+
+## 🔚 API ENDPOINTS
 
 The API has two main controllers, /users and /customers. Every endpoint requires a JWT provided through a bearer token with the 'Bearer' token prefix.
 
-To login and get the token:
+### To login and get the token:
 
 - **GET /auth/login** -> Login and get JWT
   - **_@Recieves:_** { username: <>, password: <> }
   - **_@Returns:_** an object with the access token
 
-At /customers we have:
+### At /customers we have:
 
 - **GET /customers** -> Lists all customers in the database.
 
@@ -100,8 +113,7 @@ At /customers we have:
   - **_@Recieves:_** a customer {id}
   - **_@Returns:_** the deleted customer
 
-The /users endpoints requires the authenticated user to be admin (isAdmin: true)
-At /users we have:
+### At /users we have (/users endpoints require the authenticated user to be admin (isAdmin: true) ):
 
 - **GET /users** -> Lists all users in the database.
 
