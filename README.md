@@ -1,5 +1,22 @@
 # 🛒 Shop CRM Backend
 
+## 📌 Index
+
+- [📝 Description](#📝-description)
+- [▶️ Run this project](#▶️-run-this-project)
+  - [🔧 Requirements](#🔧-requirements)
+  - [🐳 Run the containers](#🐳-run-the-containers)
+  - [⏸️ Stop the containers](#⏸️-stop-the-containers)
+- [🌐 REST API](#🌐-rest-api)
+  - [Data structure](#for-the-data-structure)
+  - [Authorization](#as-for-the-authorization)
+- [🔚 API ENDPOINTS](#🔚-api-endpoints)
+  - [Login and token](#to-login-and-get-the-token)
+  - [/customers endpoints](#at-customers-we-have)
+  - [/users endpoints (admin required)](#at-users-we-have-users-endpoints-require-the-authenticated-user-to-be-admin-isadmin-true)
+
+## 📝 Description
+
 This project simulates a REST API to manage customer data for a small shop 🛒.
 
 It consists of 2 Docker 🐳 containers:
@@ -9,9 +26,9 @@ It consists of 2 Docker 🐳 containers:
 
 For the backend, the main technologies used are:
 
-- <a href="http://nestjs.com/" target="_blank">NestJS <img src="https://nestjs.com/img/logo-small.svg" width="18" style="vertical-align:middle;" alt="Nest Logo" /></a>
-- <a href="https://mongoosejs.com/" target="_blank">Mongoose <img src="https://avatars.githubusercontent.com/u/7552965?s=280&v=4" width="30" style="vertical-align:middle;" alt="Mongoose Logo" /></a>
-- <a href="https://www.passportjs.org/" target="_blank">Passport <img src="https://cdn.glitch.me/project-avatar/0d184ee3-fd8d-4b94-acf4-b4e686e57375.png" width="20" style="vertical-align:middle;" alt="Passport Logo" /></a>
+- [NestJS <img src="https://nestjs.com/img/logo-small.svg" width="18" style="vertical-align:middle;" alt="Nest Logo" />](http://nestjs.com/ "NestJS's Homepage")
+- [Mongoose <img src="https://avatars.githubusercontent.com/u/7552965?s=280&v=4" width="30" style="vertical-align:middle;" alt="Mongoose Logo" />](https://mongoosejs.com/ "Mongoose's Homepage")
+- [Passport <img src="https://cdn.glitch.me/project-avatar/0d184ee3-fd8d-4b94-acf4-b4e686e57375.png" width="20" style="vertical-align:middle;" alt="Passport Logo" />](https://www.passportjs.org/ "Passport's Homepage")
 
 # ▶️ Run this project
 
