@@ -2,15 +2,15 @@
 
 ## 📌 Index
 
-- [📝 Description](#📝-description)
-- [▶️ Run this project](#▶️-run-this-project)
-  - [🔧 Requirements](#🔧-requirements)
-  - [🐳 Run the containers](#🐳-run-the-containers)
-  - [⏸️ Stop the containers](#⏸️-stop-the-containers)
-- [🌐 REST API](#🌐-rest-api)
+- [📝 Description](#-description)
+- [▶️ Run this project](#%EF%B8%8F-run-this-project)
+  - [🔧 Requirements](#-requirements)
+  - [🐳 Run the containers](#-run-the-containers)
+  - [⏸️ Stop the containers](#%EF%B8%8F-stop-the-containers)
+- [🌐 REST API](#-rest-api)
   - [Data structure](#for-the-data-structure)
   - [Authorization](#as-for-the-authorization)
-- [🔚 API ENDPOINTS](#🔚-api-endpoints)
+- [🔚 API ENDPOINTS](#-api-endpoints)
   - [Login and token](#to-login-and-get-the-token)
   - [/customers endpoints](#at-customers-we-have)
   - [/users endpoints (admin required)](#at-users-we-have-users-endpoints-require-the-authenticated-user-to-be-admin-isadmin-true)
