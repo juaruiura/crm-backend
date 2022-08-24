@@ -55,6 +55,8 @@ To stop the containers, just execute the following command in the root folder of
 docker compose down
 ```
 
+[☝️ Return to Index](#-index)
+
 # 🌐 REST API
 
 The API is only accessible by a registered user by providing an authentication token. For testing pourposes, a default **_user { username: admin, password: admin }_** (password is **already hashed**, so to login, you must send and object **like the previously described**)
@@ -93,6 +95,8 @@ The API is only accessible by a registered user by providing an authentication t
   - Delete users.
   - Update users (and so change its admin status).
   - List users.
+
+  [☝️ Return to Index](#-index)
 
 ## 🔚 API ENDPOINTS
 
@@ -153,5 +157,8 @@ The API has two main controllers, /users and /customers. Every endpoint requires
   - **_@Returns:_** the updated user
 
 - **DELETE /users/{id}** -> Deletes an existing user.
+
   - **_@Recieves:_** an user {id}
   - **_@Returns:_** the deleted user
+
+  [☝️ Return to Index](#-index)
