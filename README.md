@@ -151,7 +151,7 @@ The API has two main controllers, /users and /customers. Every endpoint requires
   - **_@Recieves:_** an user object
   - **_@Returns:_** the newly created user
 
-- **PUT /users/{id}** -> Updates an existing user.
+- **PUT /users/{id}** -> Updates an existing user (**_We can use this to either update user info, admin status, or BOTH_**).
 
   - **_@Recieves:_** an user's {id} and an object with the updated properties
   - **_@Returns:_** the updated user
