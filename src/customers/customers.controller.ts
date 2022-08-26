@@ -1,7 +1,24 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards, Request, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer'
+import { v4 as uuidv4 } from 'uuid'
+import path = require('path');
+
 import { Customer } from './customer.model';
 import { CustomersService } from './customers.service';
 import { JwtAuthGuard } from './../auth/jwt-auth.guard';
+
+export const storage = {
+    storage: diskStorage({
+        destination: './uploads/profile_images',
+        filename: (req, file, cb) => {
+            const filename: string = path.parse(file.originalname).name.replace(/\s/g, '') + uuidv4()
+            const extension: string = path.parse(file.originalname).ext
+
+            cb(null, `${filename}${extension}`)
+        }
+    })
+}
 
 @Controller('customers')
 export class CustomersController {
@@ -22,16 +39,18 @@ export class CustomersController {
     }
 
     @UseGuards(JwtAuthGuard)
+    @UseInterceptors(FileInterceptor('img', storage))
     @Post()
-    async createCustomer(@Body() newCustomer: Customer, @Request() req): Promise<Customer> {
-        const insertedCustomer = await this.customersService.insertCustomer(newCustomer, req.user.username)
+    async createCustomer(@Body() newCustomer: Customer, @Request() req, @UploadedFile() img): Promise<Customer> {
+        const insertedCustomer = await this.customersService.insertCustomer(newCustomer, req.user.username, img ? img.path : '')
         return insertedCustomer
     }
 
     @UseGuards(JwtAuthGuard)
+    @UseInterceptors(FileInterceptor('img', storage))
     @Put(':id')
-    async updateCustomer(@Param('id') id: string, @Body() customer, @Request() req): Promise<Customer> {
-        const updatedCustomer = await this.customersService.updateCustomer(id, customer, req.user.username)
+    async updateCustomer(@Param('id') id: string, @Body() update: Customer, @Request() req, @UploadedFile() img): Promise<Customer> {
+        const updatedCustomer = await this.customersService.updateCustomer(id, update, req.user.username, img ? img.path : '')
         return updatedCustomer
     }
 

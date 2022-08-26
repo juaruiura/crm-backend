@@ -4,7 +4,7 @@ export const CustomerSchema = new mongoose.Schema({
     id: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     surname: { type: String, required: true },
-    photo: String,
+    imgUrl: String,
     createdBy: String,
     lastModifiedBy: String,
 })
@@ -13,7 +13,7 @@ export interface Customer extends mongoose.Document {
     id: string,
     name: string,
     surname: string,
-    photo: string,
+    imgUrl: string,
     createdBy: string,
     lastModifiedBy: string,
 }

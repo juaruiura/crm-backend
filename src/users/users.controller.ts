@@ -29,21 +29,21 @@ export class UsersController {
 
     @UseGuards(JwtAuthGuard)
     @Post('')
-    async createUser(@Body() newUser: User, @Request() req): Promise<User> {
+    async createUser(@Body() body, @Request() req): Promise<User> {
         const { isAdmin } = await this.usersService.getUser(req.user.username)
         if (!isAdmin) throw new ForbiddenException()
 
-        const insertedUser = await this.usersService.insertUser(newUser)
+        const insertedUser = await this.usersService.insertUser(JSON.parse(body.user))
         return insertedUser
     }
 
     @UseGuards(JwtAuthGuard)
     @Put(':id')
-    async updateUser(@Param('id') id: string, @Body() user: User, @Request() req): Promise<User> {
+    async updateUser(@Param('id') id: string, @Body() body, @Request() req): Promise<User> {
         const { isAdmin } = await this.usersService.getUser(req.user.username)
         if (!isAdmin) throw new ForbiddenException()
 
-        const updatedUser = await this.usersService.updateUser(id, user)
+        const updatedUser = await this.usersService.updateUser(id, JSON.parse(body.user))
         return updatedUser
     }
 
