@@ -42,7 +42,7 @@ export class CustomersController {
     @UseInterceptors(FileInterceptor('img', storage))
     @Post()
     async createCustomer(@Body() newCustomer: Customer, @Request() req, @UploadedFile() img): Promise<Customer> {
-        const insertedCustomer = await this.customersService.insertCustomer(newCustomer, req.user.username, img ? img.path : '')
+        const insertedCustomer = await this.customersService.insertCustomer(newCustomer, req.user._id, img ? img.path : '')
         return insertedCustomer
     }
 
@@ -50,7 +50,7 @@ export class CustomersController {
     @UseInterceptors(FileInterceptor('img', storage))
     @Put(':id')
     async updateCustomer(@Param('id') id: string, @Body() update: Customer, @Request() req, @UploadedFile() img): Promise<Customer> {
-        const updatedCustomer = await this.customersService.updateCustomer(id, update, req.user.username, img ? img.path : '')
+        const updatedCustomer = await this.customersService.updateCustomer(id, update, req.user._id, img ? img.path : '')
         return updatedCustomer
     }
 

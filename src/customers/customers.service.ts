@@ -19,15 +19,16 @@ export class CustomersService {
         return customer
     }
 
-    async insertCustomer(customer: Customer, creatorUsername: string, imgUrl: string): Promise<Customer> {
-        const newCustomer = new this.customerModel({ ...customer, createdBy: creatorUsername, lastModifiedBy: creatorUsername, ...(imgUrl !== '' && { imgUrl: imgUrl }) })
+    async insertCustomer(customer: Customer, creatorRef: string, imgUrl: string): Promise<Customer> {
+        const newCustomer = new this.customerModel({ ...customer, createdBy: creatorRef, lastModifiedBy: creatorRef, ...(imgUrl !== '' && { imgUrl: imgUrl }) })
         const result = await newCustomer.save()
         return result
     }
 
-    async updateCustomer(id: string, customer: Customer, modifierUsername: string, imgUrl: string): Promise<Customer> {
+    async updateCustomer(id: string, customer: Customer, modifierRef: string, imgUrl: string): Promise<Customer> {
         const filter = { id: id };
-        const update = { ...customer, lastModifiedBy: modifierUsername, ...(imgUrl !== '' && { imgUrl: imgUrl }) }
+        delete customer.createdBy
+        const update = { ...customer, lastModifiedBy: modifierRef, ...(imgUrl !== '' && { imgUrl: imgUrl }) }
         const updatedUser = await this.customerModel.findOneAndUpdate(filter, update, { new: true })
         return updatedUser
     }
