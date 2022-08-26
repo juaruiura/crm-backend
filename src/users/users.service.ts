@@ -15,8 +15,8 @@ export class UsersService {
         return users
     }
 
-    async getUser(id: string): Promise<User> {
-        const user = await this.userModel.findOne({ id: id }).exec()
+    async getUser(username: string): Promise<User> {
+        const user = await this.userModel.findOne({ username: username }).exec()
         return user
     }
 
@@ -27,16 +27,17 @@ export class UsersService {
         return savedUser
     }
 
-    async updateUser(id: string, user: User): Promise<User> {
-        const filter = { id: id };
-        const hashedPassword = await bcrypt.hash(user.password, 10)
-        const update = { ...user, password: hashedPassword }
+    async updateUser(username: string, update: User): Promise<User> {
+        const filter = { username: username }
+        if (update.password && update.password !== '') {
+            update.password = await bcrypt.hash(update.password, 10)
+        }
         const updatedUser = await this.userModel.findOneAndUpdate(filter, update, { new: true })
         return updatedUser
     }
 
-    async deleteUser(id: string): Promise<User> {
-        const deletedUser = await this.userModel.findOneAndDelete({ id: id }).exec()
+    async deleteUser(username: string): Promise<User> {
+        const deletedUser = await this.userModel.findOneAndDelete({ username: username }).exec()
         return deletedUser
     }
 }
