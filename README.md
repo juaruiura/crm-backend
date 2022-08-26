@@ -68,7 +68,7 @@ The API is only accessible by a registered user by providing an authentication t
   - id: { type: String, required: true, unique: true },
   - name: { type: String, required: true },
   - surname: { type: String, required: true },
-  - photo: String,
+  - imgUrl: String,
   - createdBy: String,
   - lastModifiedBy: String,
 
@@ -117,22 +117,22 @@ The API has two main controllers, /users and /customers. Every endpoint requires
 
 - **GET /customers/{id}** -> Gets a customer information.
 
-  - **_@Recieves:_** a customer {id}
+  - **_@Recieves:_** a customer's {id}
   - **_@Returns:_** a customer object
 
 - **POST /customers** -> Creates a new customer.
 
-  - **_@Recieves:_** a customer object
-  - **_@Returns:_** the newly created customer
+  - **_@Recieves:_** a customer's object, a customer object and, optionally, an img file
+  - **_@Returns:_** the newly created customer object
 
 - **PUT /customers/{id}** -> Updates an existing customer.
 
-  - **_@Recieves:_** a customer {id}
-  - **_@Returns:_** the updated customer
+  - **_@Recieves:_** a customer's {id}, an object with the updated properties and, optionally, an img file
+  - **_@Returns:_** the updated customer object
 
 - **DELETE /customers/{id}** -> Deletes an existing customer.
-  - **_@Recieves:_** a customer {id}
-  - **_@Returns:_** the deleted customer
+  - **_@Recieves:_** a customer's {id}
+  - **_@Returns:_** the deleted customer object
 
 ### At /users we have (/users endpoints require the authenticated user to be admin (isAdmin: true) ):
 
@@ -143,7 +143,7 @@ The API has two main controllers, /users and /customers. Every endpoint requires
 
 - **GET /users/{id}** -> Gets a user information.
 
-  - **_@Recieves:_** an user {id}
+  - **_@Recieves:_** an user's {id}
   - **_@Returns:_** an user object
 
 - **POST /users** -> Creates a new user.
@@ -153,7 +153,7 @@ The API has two main controllers, /users and /customers. Every endpoint requires
 
 - **PUT /users/{id}** -> Updates an existing user.
 
-  - **_@Recieves:_** an user {id}
+  - **_@Recieves:_** an user's {id} and an object with the updated properties
   - **_@Returns:_** the updated user
 
 - **DELETE /users/{id}** -> Deletes an existing user.
